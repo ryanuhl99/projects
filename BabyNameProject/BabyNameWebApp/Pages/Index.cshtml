@@ -1,0 +1,46 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Find Baby Names";
+}
+
+<h1>Baby Name Selection</h1>
+
+<form method="Post">
+    <div>
+        <label for="Gender">Gender:</label>
+        <select id="Gender" name="Gender" asp-for="Gender">
+            <option value="">ALL</option>
+            <option value="girl">Girl</option>
+            <option value="boy">Boy</option>
+        </select>
+    </div>
+    <div>
+        <label for="Syllables">Syllables:</label>
+        <input type="number" id="Syllables" name="Syllables" asp-for="Syllables" min=0 />
+    </div>
+    <div>
+        <label for="StartsWith">Starts With:</label>
+        <input type="text" id="StartsWith" name="StartsWith" asp-for="StartsWith" maxlength=1 />
+        <span asp-validation-for="StartsWith" class="text-danger"></span>
+    </div>
+    <button type="submit">Filter</button>
+</form>
+
+@if (Model.FilteredNames != null && Model.FilteredNames.Any())
+{
+<ul>
+    @foreach (var name in Model.FilteredNames)
+    {
+    <li>@name.Name</li>
+    }
+</ul>
+}
+else
+{
+    <p>Enter search criteria and hit 'Filter' to field your search</p>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
